@@ -29,10 +29,12 @@ phases:
       - terraform plan -out=tfplan
       - echo Showing Terraform plan...
       - terraform show tfplan
+      - echo Showing the content of tfplan...
+      - cat tfplan
       - echo Evaluating policy with OPA...
-      - opa eval --data policy.rego --input tfplan "data.example.allow" || { echo "OPA evaluation failed"; opa eval --data policy.rego --input tfplan; exit 1; }
+      - opa eval --data policy.rego --input tfplan "data.example.allow" || { echo "OPA evaluation failed"; exit 1; }
 
   post_build:
     commands:
       - echo Applying Terraform plan...
-      - terraform apply -auto-approve tfplan || { echo "Terraform apply failed"; terraform apply tfplan; exit 1; }
+      - terraform apply -auto-approve tfplan || { echo "Terraform apply failed"; exit 1; }
