@@ -8,6 +8,11 @@ phases:
       - unzip terraform.zip
       - sudo mv terraform /usr/local/bin/
       - terraform --version
+      - echo Installing OPA...
+      - curl -Lo opa https://github.com/open-policy-agent/opa/releases/latest/download/opa_linux_amd64
+      - chmod +x opa
+      - sudo mv opa /usr/local/bin/
+      - opa version
 
   pre_build:
     commands:
@@ -22,8 +27,10 @@ phases:
       - terraform init
       - terraform validate
       - terraform plan -out=tfplan
-      - opa eval --data policy.rego --input tfplan "data.example.allow"
+      - echo Evaluating policy with OPA...
+      - opa eval --data policy.rego --input tfplan "data.example.allow" || { echo "OPA evaluation failed"; exit 1; }
 
   post_build:
     commands:
-      - terraform apply -auto-approve tfplan
+      - echo Applying Terraform plan...
+      - terraform apply -auto-approve tfplan || { echo "Terraform apply failed"; exit 1; }
