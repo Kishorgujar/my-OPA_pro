@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "example" {
-  bucket = "automation-cicd-pro-${var.region}-${random_string.bucket_suffix.result}"
+  bucket = lower("automation-cicd-pro-ap-south-1-${random_string.bucket_suffix.result}")
 }
 
 resource "random_string" "bucket_suffix" {
