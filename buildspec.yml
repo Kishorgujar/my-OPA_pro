@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.x
+  pre_build:
+    commands:
+      - echo Logging in to AWS...
+      - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+      - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+      - aws configure set default.region $AWS_DEFAULT_REGION
+  build:
+    commands:
+      - echo Starting Terraform...
+      - terraform init
+      - terraform validate
+      - terraform plan -out=tfplan
+  post_build:
+    commands:
+      - terraform apply -auto-approve tfplan
+      - opa eval --data policy.rego --input tfplan "data.example.allow"
+
