@@ -12,7 +12,7 @@ resource "aws_s3_bucket" "example" {
   }
  
   # Uncommenting or modifying ACL can also trigger an update
-  # acl = "private"
+   acl = "private"
 }
  
 resource "random_string" "bucket_suffix" {
