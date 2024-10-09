@@ -3,15 +3,12 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "example" {
-  bucket = "automation-cicd-pro-ap-south-1-pzrctulv"
-  
-  # Add tags for the bucket
-  tags = {
-    Name        = "automation-cicd-bucket"
-    Environment = "DEV"
-  }
-
-  # Optional: ACL settings for the bucket (private, public-read, etc.)
-  acl = "private"
+  bucket = "my-unique-bucket-name-12345"  # Change this to a unique bucket name
 }
+
+resource "aws_s3_bucket_acl" "example_acl" {
+  bucket = aws_s3_bucket.example.id  # Use .id to refer to the bucket
+  acl    = "private"
+}
+
 
