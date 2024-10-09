@@ -5,12 +5,12 @@ provider "aws" {
 resource "aws_s3_bucket" "example" {
   bucket = "automation-cicd-pro-ap-south-1-pzrctulv"
   
-  # Adding or updating tags
+  # Updating the tag "Environment" to have the value "UAT"
   tags = {
-    Name = "MyBucket"
-    Env  = "UAT"
+    Name        = "MyBucket"
+    Environment = "UAT"
   }
 
-  # Optional: Adjust the ACL if needed
-  acl = "public"
+  # Optional: Keep or adjust the ACL if needed
+  acl = "private"
 }
