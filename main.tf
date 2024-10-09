@@ -1,21 +1,16 @@
 provider "aws" {
-  region = var.region
+  region = "ap-south-1"
 }
- 
+
 resource "aws_s3_bucket" "example" {
-  bucket = lower("automation-cicd-pro-ap-south-1-${random_string.bucket_suffix.result}")
- 
-  # Adding a tags attribute to trigger an update
+  bucket = "automation-cicd-pro-ap-south-1-pzrctulv"
+  
+  # Adding or updating tags
   tags = {
-    Name        = "MyBucket"
-    Environment = "Test"
+    Name = "MyBucket"
+    Env  = "UAT"
   }
- 
-  # Uncommenting or modifying ACL can also trigger an update
-   acl = "private"
-}
- 
-resource "random_string" "bucket_suffix" {
-  length  = 8
-  special = false
+
+  # Optional: Adjust the ACL if needed
+  acl = "public"
 }
