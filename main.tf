@@ -3,8 +3,16 @@ provider "aws" {
 }
  
 resource "aws_s3_bucket" "example" {
-  # Changed the bucket name to trigger an update action
-  bucket = lower("automation-cicd-pro-ap-south-1-modified-${random_string.bucket_suffix.result}")
+  bucket = lower("automation-cicd-pro-ap-south-1-${random_string.bucket_suffix.result}")
+ 
+  # Adding a tags attribute to trigger an update
+  tags = {
+    Name        = "MyBucket"
+    Environment = "Test"
+  }
+ 
+  # Uncommenting or modifying ACL can also trigger an update
+  # acl = "private"
 }
  
 resource "random_string" "bucket_suffix" {
